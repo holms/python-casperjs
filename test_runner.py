@@ -1,18 +1,38 @@
-
+from __future__ import print_function
 from runner import construct_command, command_runner
+import sys, os, json
+import config
 
-SCRIPTS_DIR = "/Users/sunil/github/casperjs/samples/"
+class casperjs(object):
 
-def execute_command(cmd):
-    output = command_runner(cmd)
-    for r in output:
-	print 'JSON Line: %s' % r 
-    return 0
+    def __init__(self, **kwargs):
+        self.run()
+        pass
+
+    def run(self):
+        """Run CasperJS"""
+
+        try:
+            for script in config.scripts:
+                self.execute_command(script)
+        except Exception as err:
+            print(('Exception: %s' % err))
+            sys.exit(1)
+
+        pass
+
+    def execute_command(self, cmd):
+        """Execute command.
+
+        :cmd: arguments dictinoary
+        :returns: (int)
+
+        """
+        output = command_runner(cmd)
+        for r in output:
+            print(json.loads(json.dumps(r))['message'],end='')
+
+        return 0
 
 if __name__ == '__main__':
-    try:
-	args = ["%s/%s"% (SCRIPTS_DIR, 'ss.js')]
-	rc = execute_command(args)
-    except Exception as err:
-	print(('Fatal: %s; did you install phantomjs?' % err))
-	sys.exit(1)
+    casperjs = casperjs()

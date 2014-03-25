@@ -4,8 +4,14 @@ import os
 import sys
 import json
 
-PHANTOMJS_PATH="/opt/phantomjs/"
-CASPER_PATH = "/Users/sunil/github/casperjs/"
+from sys import platform as _platform
+
+if _platform == "linux" or _platform == "linux2":
+    PHANTOMJS_PATH="/usr/local/lib/node_modules/phantomjs/lib/phantom"
+    CASPER_PATH = "/usr/local/lib/node_modules/casperjs"
+elif _platform == "darwin":
+    PHANTOMJS_PATH="/opt/local"
+    CASPER_PATH = "/opt/local/lib/node_modules/casperjs"
 
 """
 Some portion of this script has been taken original casperjs
